@@ -7,7 +7,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Menu, SearchIcon } from "lucide-react";
 import { UserButton } from "@clerk/nextjs";
-import SidebarRoutes from "./sidebar-routes";
+import SidebarRoutes from "./sidebar/sidebar-routes";
 import Logo from "../ui/logo";
 import { ModeToggle } from "../shared/toggle-theme";
 

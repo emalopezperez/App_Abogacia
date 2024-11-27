@@ -1,12 +1,11 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import User from "../../lib/database/models/user.model";
+import { handleError } from "../../lib/utils";
+import { connectToDatabase } from "../../lib/mongoose";
+import { checkRole } from "@/lib/roles";
 
-import User from "../database/models/user.model";
-import { handleError } from "../utils";
-import { connectToDatabase } from "../mongoose";
-
-// CREATE
 export async function createUser(user: any) {
   try {
     await connectToDatabase();
@@ -21,6 +20,12 @@ export async function createUser(user: any) {
 }
 
 export async function getUsers() {
+  const isAdmin = await checkRole("admin");
+
+  if (!isAdmin) {
+    throw new Error("Access denied");
+  }
+
   try {
     await connectToDatabase();
 
@@ -30,8 +35,7 @@ export async function getUsers() {
 
     return JSON.parse(JSON.stringify(user));
   } catch (error) {
-    console.log(error);
-    // handleError(error);
+    handleError(error);
   }
 }
 
@@ -67,24 +71,27 @@ export async function getUserById(userId: string) {
 //   }
 // }
 
-// // DELETE
-// export async function deleteUser(clerkId: string) {
-//   try {
-//     await connectToDatabase();
+export async function deleteUser(clerkId: string) {
+  const isAdmin = await checkRole("admin");
 
-//     // Find user to delete
-//     const userToDelete = await User.findOne({ clerkId });
+  if (!isAdmin) {
+    throw new Error("Access denied");
+  }
 
-//     if (!userToDelete) {
-//       throw new Error("User not found");
-//     }
+  try {
+    await connectToDatabase();
 
-//     // Delete user
-//     const deletedUser = await User.findByIdAndDelete(userToDelete._id);
-//     revalidatePath("/");
+    const userToDelete = await User.findOne({ clerkId });
 
-//     return deletedUser ? JSON.parse(JSON.stringify(deletedUser)) : null;
-//   } catch (error) {
-//     handleError(error);
-//   }
-// }
+    if (!userToDelete) {
+      throw new Error("User not found");
+    }
+
+    const deletedUser = await User.findByIdAndDelete(userToDelete._id);
+    revalidatePath("/users");
+
+    return deletedUser ? JSON.parse(JSON.stringify(deletedUser)) : null;
+  } catch (error) {
+    handleError(error);
+  }
+}

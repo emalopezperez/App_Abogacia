@@ -1,12 +1,12 @@
-import { getUserById, getUsers } from "@/lib/actions/user.actions";
+import { getUsers } from "@/app/actions/user.actions";
+import { TableUsers } from "@/components/dashboard/users/table-users";
 
 export default async function Page() {
   const users = await getUsers();
-
-  console.log(users);
   return (
     <div>
-      <h1>Hello Page</h1>
+      <h2 className="text-2xl mb-4 font-bold">Usuarios</h2>
+      <TableUsers users={users} />
     </div>
   );
 }

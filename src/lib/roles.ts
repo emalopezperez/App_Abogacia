@@ -1,7 +1,12 @@
 import { Roles } from "@/types/globals";
 import { auth } from "@clerk/nextjs/server";
 
-export const checkRole = async (role: Roles) => {
+export const checkRole = async (role: Roles): Promise<boolean> => {
   const { sessionClaims } = await auth();
-  return sessionClaims?.metadata.role === role;
+
+  if (!sessionClaims?.metadata?.role) {
+    return false;
+  }
+
+  return sessionClaims.metadata.role === role;
 };

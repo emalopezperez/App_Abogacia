@@ -1,7 +1,7 @@
 export default function Page() {
   return (
     <div>
-      <h1>Appointments</h1>
+      <h2 className="text-2xl mb-4 font-bold">Appointments</h2>
     </div>
   );
 }

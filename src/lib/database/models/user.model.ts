@@ -9,12 +9,11 @@ const userSchema = new mongoose.Schema({
   },
   userName: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  photo: {
+  image: {
     type: String,
     required: true,
   },
   phone: { type: String, required: true },
-  gender: { type: String, default: "Not Selected" },
   dob: { type: String, default: "Not Selected" },
   password: { type: String, required: true },
 });
