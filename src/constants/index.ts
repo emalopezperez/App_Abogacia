@@ -66,6 +66,11 @@ export const dataSupportSidebar = [
     icon: ShieldCheck,
     label: "Security",
   },
+  {
+    href: "/bookins",
+    icon: ShieldCheck,
+    label: "Bookins-web",
+  },
 ];
 
 export const dataCardSumary = [
@@ -98,3 +103,10 @@ export const dataCardSumary = [
     tooltipText: "Total number of offices",
   },
 ];
+
+
+export const OPENING_HOURS_BEGINNING = 9
+export const OPENING_HOURS_END = 12
+export const OPENING_HOURS_INTERVAL = 30 
+
+export const now = new Date()

@@ -30,6 +30,7 @@ export const connectToDatabase = async () => {
     mongoose.connect(MONGODB_URL, {
       dbName: "abogacia",
       bufferCommands: false,
+      autoIndex: false,
     });
 
   cached.conn = await cached.promise;

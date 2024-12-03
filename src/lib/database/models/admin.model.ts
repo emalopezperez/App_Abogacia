@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const doctorSchema = new mongoose.Schema(
+const adminSchema = new mongoose.Schema(
   {
     clerkId: {
       type: String,
@@ -19,6 +19,6 @@ const doctorSchema = new mongoose.Schema(
   { minimize: false }
 );
 
-const doctorModel =
-  mongoose.models.doctor || mongoose.model("doctor", doctorSchema);
-export default doctorModel;
+const adminModel =
+  mongoose.models.admin || mongoose.model("admin", adminSchema);
+export default adminModel;

@@ -6,7 +6,7 @@ export default async function Page() {
   return (
     <div>
       <h2 className="text-2xl mb-4 font-bold">Usuarios</h2>
-      <TableUsers users={users} />
+      {/* <TableUsers users={users} /> */}
     </div>
   );
 }
