@@ -10,17 +10,12 @@ import adminModel from "@/lib/database/models/admin.model";
 import userModel from "../../lib/database/models/user.model";
 
 export async function createUser(user: any) {
-  const isAdmin = await checkRole("admin");
-  if (!isAdmin) throw new Error("Access denied");
-
   try {
     await connectToDatabase();
-    const newUser = await userModel.create(user);
-    return {
-      success: true,
-      message: "User created successfully",
-      data: JSON.parse(JSON.stringify(newUser)),
-    };
+
+    const newUser = await User.create(user);
+
+    return JSON.parse(JSON.stringify(newUser));
   } catch (error) {
     handleError(error);
   }
