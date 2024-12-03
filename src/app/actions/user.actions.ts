@@ -11,15 +11,11 @@ import userModel from "../../lib/database/models/user.model";
 
 export async function createUser(user: any) {
   const isAdmin = await checkRole("admin");
+  if (!isAdmin) throw new Error("Access denied");
 
-  if (!isAdmin) {
-    throw new Error("Access denied");
-  }
   try {
     await connectToDatabase();
-
-    const newUser = await User.create(user);
-
+    const newUser = await userModel.create(user);
     return {
       success: true,
       message: "User created successfully",
