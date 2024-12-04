@@ -10,7 +10,6 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   image: { type: String },
   phone: { type: String },
-  dob: { type: String, default: "Not Selected" },
 });
 
 const userModel = mongoose.models.user || mongoose.model("user", userSchema);
