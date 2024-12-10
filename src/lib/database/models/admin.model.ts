@@ -1,24 +1,23 @@
 import mongoose from "mongoose";
 
-const adminSchema = new mongoose.Schema(
-  {
-    clerkId: {
-      type: String,
-      required: true,
-      unique: true,
+const AdminSchema = new mongoose.Schema({
+  clerkUserId: { type: String, required: true, unique: true, index: true },
+  email: { type: String, required: true, unique: true, index: true },
+  name: { type: String, required: true },
+  imageUrl: { type: String },
+  availability: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Availability",
     },
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    image: { type: String, required: true },
-    about: { type: String, required: true },
-    available: { type: Boolean, default: true },
-    slots_booked: { type: Object, default: {} },
-    date: { type: Number, required: true },
-  },
-  { minimize: false }
-);
+  ],
+  phone: { type: String },
+  nylasGrantId: { type: String },
+  nylasEmail: { type: String },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
+});
 
-const adminModel =
-  mongoose.models.admin || mongoose.model("admin", adminSchema);
-export default adminModel;
+export const Admin =
+  mongoose.models.Admin ||
+  mongoose.model("Admin", AdminSchema);

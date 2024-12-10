@@ -13,13 +13,13 @@ import { ModeToggle } from "../shared/toggle-theme";
 
 const NavBar = () => {
   return (
-    <div className="flex items-center px-2 gap-x-4 md:px-4 justify-between w-full bg-background border-b h-20 ">
+    <div className="flex sticky top-0 items-center px-2 gap-x-4 md:px-4 justify-between w-full bg-background border-b h-20 z-50">
       <div className="block xl:hidden">
         <Sheet>
           <SheetTrigger className="flex items-center">
             <Menu className="" />
           </SheetTrigger>
-          <SheetContent side="left">
+          <SheetContent side="left" className="z-50">
             <SheetTitle>
               <Logo />
             </SheetTitle>

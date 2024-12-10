@@ -30,10 +30,11 @@ export const dataSidebar = [
     icon: BookAIcon,
     label: "Blog",
   },
+
   {
-    href: "/dashboard/appointments",
+    href: "/dashboard/events",
     icon: Calendar,
-    label: "Appointments",
+    label: "Eventos",
   },
   {
     href: "/dashboard/users",
@@ -95,18 +96,22 @@ export const dataCardSumary = [
     title: "Lawyers",
     tooltipText: "Total number of lawyers",
   },
-  {
-    icon: Building,
-    total: "20",
-    avarage: 2,
-    title: "Offices",
-    tooltipText: "Total number of offices",
-  },
 ];
 
 
-export const OPENING_HOURS_BEGINNING = 9
-export const OPENING_HOURS_END = 12
-export const OPENING_HOURS_INTERVAL = 30 
+export const days = [
+  "Lunes",
+  "Martes",
+  "Miercoles",
+  "Jueves",
+  "Viernes",
+  "Sabado",
+  "Domingo",
+];
 
-export const now = new Date()
+export const hours = Array.from({ length: 24 }, (_, i) => i)
+.map((hour) => [
+  `${hour.toString().padStart(2, "0")}:00`,
+  `${hour.toString().padStart(2, "0")}:30`,
+])
+.flat();

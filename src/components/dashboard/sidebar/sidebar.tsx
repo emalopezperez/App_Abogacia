@@ -1,13 +1,15 @@
 import Logo from "@/components/ui/logo";
 import SidebarRoutes from "./sidebar-routes";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const Sidebar = () => {
   return (
     <aside className="h-screen ">
-      <div className="h-full flex flex-col border-r  overflow-y-auto">
+      <div className="h-full flex flex-col border-r  ">
         <Logo />
-
-        <SidebarRoutes />
+        <ScrollArea className="  rounded-md border p-4">
+          <SidebarRoutes />
+        </ScrollArea>
       </div>
     </aside>
   );

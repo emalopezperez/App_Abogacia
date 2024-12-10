@@ -9,3 +9,12 @@ declare global {
     };
   }
 }
+
+export interface User {
+  clerkUserId: string;
+  firstName?: string;
+  lastName?: string;
+  email: string;
+  imageUrl?: string;
+  phone?: number;
+}

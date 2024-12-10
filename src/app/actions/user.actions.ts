@@ -5,19 +5,68 @@ import User from "../../lib/database/models/user.model";
 import { handleError } from "../../lib/utils";
 import { connectToDatabase } from "../../lib/mongoose";
 import { checkRole } from "@/lib/roles";
-import appointmentModel from "@/lib/database/models/appointment.model";
-import adminModel from "@/lib/database/models/admin.model";
 import userModel from "../../lib/database/models/user.model";
 
 export async function createUser(user: any) {
   try {
     await connectToDatabase();
 
-    const newUser = await User.create(user);
- 
-    return newUser
+    const newUser = await userModel.create(user);
+
+    return newUser;
   } catch (error) {
     handleError(error);
+  }
+}
+
+export async function updateUser(user: any) {
+  const { clerkUserId } = user;
+  try {
+    await connectToDatabase();
+
+    const updatedUser = await userModel.findOneAndUpdate(
+      { clerkUserId },
+      user,
+      {
+        new: true,
+      }
+    );
+
+    if (!updatedUser) throw new Error("User update failed");
+
+    return updatedUser;
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+export async function deleteUser(clerkId: string) {
+  try {
+    await connectToDatabase();
+
+    const userToDelete = await userModel.findOne({ clerkId });
+
+    if (!userToDelete) {
+      return {
+        success: false,
+        message: "User not found",
+      };
+    }
+
+    await userModel.findByIdAndDelete(userToDelete._id);
+
+    revalidatePath("/users");
+
+    return {
+      success: true,
+      message: "User deleted successfully",
+    };
+  } catch (error) {
+    handleError(error);
+    return {
+      success: false,
+      message: "An error occurred while deleting the user",
+    };
   }
 }
 
@@ -68,102 +117,3 @@ export async function getUserById(userId: string) {
   }
 }
 
-// // UPDATE
-// export async function updateUser(clerkId: string, user: UpdateUserParams) {
-//   try {
-//     await connectToDatabase();
-
-//     const updatedUser = await User.findOneAndUpdate({ clerkId }, user, {
-//       new: true,
-//     });
-
-//     if (!updatedUser) throw new Error("User update failed");
-
-//     return JSON.parse(JSON.stringify(updatedUser));
-//   } catch (error) {
-//     handleError(error);
-//   }
-// }
-
-export async function deleteUser(clerkId: string) {
-  const isAdmin = await checkRole("admin");
-
-  if (!isAdmin) {
-    throw new Error("Access denied");
-  }
-
-  try {
-    await connectToDatabase();
-
-    const userToDelete = await User.findOne({ clerkId });
-
-    if (!userToDelete) {
-      throw new Error("User not found");
-    }
-
-    const deletedUser = await User.findByIdAndDelete(userToDelete._id);
-    revalidatePath("/users");
-
-    return {
-      success: true,
-      message: "User deleted successfully",
-      deleteUser,
-    };
-  } catch (error) {
-    handleError(error);
-  }
-}
-
-export async function bookAppointment(
-  userId: string,
-  slotDate: string,
-  slotTime: string,
-  message: string
-) {
-  const isAdmin = await checkRole("admin");
-
-  if (!isAdmin) {
-    throw new Error("Access denied");
-  }
-
-  try {
-    await connectToDatabase();
-
-    const adminData = await adminModel.findOne({}, "slots_booked");
-
-    const slotsBooked = adminData?.slots_booked || {};
-
-    const isSlotTaken = slotsBooked[slotDate]?.includes(slotTime);
-
-    if (isSlotTaken) {
-      throw new Error("Horario ocupado");
-    }
-
-    slotsBooked[slotDate] = slotsBooked[slotDate] || [];
-    slotsBooked[slotDate].push(slotTime);
-
-    const userData = await userModel
-      .findById(userId)
-      .select("-password -clerkId");
-
-    const newAppointment = new appointmentModel({
-      userId,
-      userData,
-      slotTime,
-      slotDate,
-      message,
-      date: Date.now(),
-    });
-
-    await newAppointment.save();
-    await adminModel.updateOne({}, { slots_booked: slotsBooked });
-
-    return {
-      success: true,
-      message: "Appointment booked successfully",
-      data: JSON.parse(JSON.stringify(newAppointment)),
-    };
-  } catch (error) {
-    handleError(error);
-  }
-}
