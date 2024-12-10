@@ -10,6 +10,7 @@ import { UserButton } from "@clerk/nextjs";
 import SidebarRoutes from "./sidebar/sidebar-routes";
 import Logo from "../ui/logo";
 import { ModeToggle } from "../shared/toggle-theme";
+import { Search } from "./search";
 
 const NavBar = () => {
   return (
@@ -29,8 +30,7 @@ const NavBar = () => {
       </div>
 
       <div className="relative w-[300px] ">
-        <Input placeholder="Search..." className="rounded-lg" />
-        <SearchIcon strokeWidth={1} className="absolute top-2 right-2" />
+        <Search />
       </div>
 
       <div className="flex gap-x-2 items-center">
