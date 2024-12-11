@@ -100,13 +100,13 @@ export const dataCardSumary = [
 
 
 export const days = [
-  "Lunes",
-  "Martes",
-  "Miercoles",
-  "Jueves",
-  "Viernes",
-  "Sabado",
-  "Domingo",
+  "lunes",
+  "martes",
+  "miércoles",
+  "jueves",
+  "viernes",
+  "sábado",
+  "domingo",
 ];
 
 export const hours = Array.from({ length: 24 }, (_, i) => i)

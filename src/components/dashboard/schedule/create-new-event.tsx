@@ -46,7 +46,7 @@ const CreateNewEvent = ({ data, setData }: { data: any; setData: any }) => {
             <Input
               id="title"
               name="title"
-              defaultValue="Agenda de la semana"
+              value={data.title}
               placeholder="Enter appointment title"
               onChange={handleChange}
             />
@@ -62,7 +62,7 @@ const CreateNewEvent = ({ data, setData }: { data: any; setData: any }) => {
                 type="text"
                 id="url"
                 name="url"
-                defaultValue="example-user-1"
+                value={data.url}
                 placeholder="your-custom-url"
                 className="rounded-l-none"
                 onChange={handleChange}
@@ -75,7 +75,7 @@ const CreateNewEvent = ({ data, setData }: { data: any; setData: any }) => {
             <Textarea
               id="description"
               name="description"
-              defaultValue="30 min meeting"
+              value={data.description}
               placeholder="Describe the purpose of this appointment type"
               className="h-24"
               onChange={handleChange}
@@ -86,7 +86,7 @@ const CreateNewEvent = ({ data, setData }: { data: any; setData: any }) => {
             <Label htmlFor="duration">Duration</Label>
             <Select
               name="duration"
-              defaultValue="30"
+              value={data.duration}
               onValueChange={handleDurationChange}>
               <SelectTrigger>
                 <SelectValue placeholder="Select the duration" />

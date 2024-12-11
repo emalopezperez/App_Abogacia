@@ -3,9 +3,9 @@ import mongoose, {Model} from 'mongoose';
 import { BookingTimes, FromTo, WeekdayName } from './types';
 
 const FromToSchema = new mongoose.Schema({
-  from: String,
-  to: String,
-  active: Boolean,
+  start: String,
+  end: String,
+  enabled: Boolean,
 });
 
 export interface IEventType extends mongoose.Document {

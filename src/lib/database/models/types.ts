@@ -1,7 +1,7 @@
 export type FromTo = {
-  from: string;
-  to: string;
-  active: boolean;
+  start: string;
+  end: string;
+  enabled: boolean;
 };
 
 export type WeekdayName = 'lunes' | 'martes'

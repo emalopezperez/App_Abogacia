@@ -41,14 +41,14 @@ export function AvailabilityDays({
     setSchedules((prev) => {
       const newSchedules: Record<string, Schedule> = {
         ...prev,
-        [day]: { ...prev[day], enabled: !prev[day].enabled },
+        [day]: { ...prev[day], active: !prev[day].active },
       };
       return newSchedules;
     });
   };
   const handleTimeChange = (
     day: string,
-    type: "start" | "end",
+    type: "from" | "to",
     value: string
   ) => {
     setSchedules((prev: any) => ({
@@ -92,7 +92,7 @@ export function AvailabilityDays({
                   transition={{ duration: 0.3, delay: index * 0.1 }}>
                   <TableCell className="text-center align-middle py-2">
                     <Switch
-                      checked={schedules[day].enabled}
+                      checked={schedules[day].active}
                       onCheckedChange={() => handleSwitchChange(day)}
                     />
                   </TableCell>
@@ -101,11 +101,11 @@ export function AvailabilityDays({
                   </TableCell>
                   <TableCell className="text-center align-middle py-2">
                     <Select
-                      value={schedules[day].start}
+                      value={schedules[day].from}
                       onValueChange={(value) =>
-                        handleTimeChange(day, "start", value)
+                        handleTimeChange(day, "from", value)
                       }
-                      disabled={!schedules[day].enabled}>
+                      disabled={!schedules[day].active}>
                       <SelectTrigger className="w-full max-w-[120px] mx-auto">
                         <SelectValue />
                       </SelectTrigger>
@@ -122,18 +122,18 @@ export function AvailabilityDays({
                   </TableCell>
                   <TableCell className="text-center align-middle py-2">
                     <Select
-                      value={schedules[day].end}
+                      value={schedules[day].to}
                       onValueChange={(value) =>
-                        handleTimeChange(day, "end", value)
+                        handleTimeChange(day, "to", value)
                       }
-                      disabled={!schedules[day].enabled}>
+                      disabled={!schedules[day].active}>
                       <SelectTrigger className="w-full max-w-[120px] mx-auto">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
                           {hours
-                            .filter((hour) => hour > schedules[day].start)
+                            .filter((hour) => hour > schedules[day].from)
                             .map((hour) => (
                               <SelectItem key={hour} value={hour}>
                                 {hour}
