@@ -39,28 +39,44 @@ export function AvailabilityDays({
 }: AvailabilityDaysProps) {
   const handleSwitchChange = (day: string) => {
     setSchedules((prev) => {
-      const newSchedules: Record<string, Schedule> = {
+      const isActive = !prev[day].active;
+
+      return {
         ...prev,
-        [day]: { ...prev[day], active: !prev[day].active },
+        [day]: {
+          ...prev[day],
+          active: isActive,
+          from: isActive ? prev[day].from || "09:00" : "",
+          to: isActive ? prev[day].to || "17:00" : "",
+        },
       };
-      return newSchedules;
     });
   };
+
   const handleTimeChange = (
     day: string,
     type: "from" | "to",
     value: string
   ) => {
-    setSchedules((prev: any) => ({
-      ...prev,
-      [day]: { ...prev[day], [type]: value },
-    }));
+    setSchedules((prev) => {
+      const updatedSchedule = { ...prev[day], [type]: value };
+
+      if (type === "from" && value >= prev[day].to) {
+        updatedSchedule.to = hours.find((hour) => hour > value) || value;
+      }
+
+      if (type === "to" && value <= prev[day].from) {
+        updatedSchedule.from = hours.find((hour) => hour < value) || value;
+      }
+
+      return { ...prev, [day]: updatedSchedule };
+    });
   };
 
   return (
-    <Card className="w-full  shadow-xl">
+    <Card className="w-full shadow-xl">
       <motion.div
-        className=" overflow-hidden pb-8 "
+        className="overflow-hidden pb-8"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}>
@@ -73,26 +89,25 @@ export function AvailabilityDays({
               Establecer la disponibilidad de los eventos
             </CardDescription>
           </CardHeader>
-          <Table className="">
+          <Table>
             <TableHeader>
-              <TableRow className="">
-                <TableHead className="w-1/6 text-center ">Habilitar</TableHead>
-                <TableHead className="w-1/6 text-center ">Días</TableHead>
-                <TableHead className="w-1/3 text-center ">Inicio</TableHead>
-                <TableHead className="w-1/3 text-center ">Fin</TableHead>
+              <TableRow>
+                <TableHead className="w-1/6 text-center">Habilitar</TableHead>
+                <TableHead className="w-1/6 text-center">Días</TableHead>
+                <TableHead className="w-1/3 text-center">Inicio</TableHead>
+                <TableHead className="w-1/3 text-center">Fin</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {days.map((day, index) => (
                 <motion.tr
                   key={day}
-                  className=""
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.1 }}>
                   <TableCell className="text-center align-middle py-2">
                     <Switch
-                      checked={schedules[day].active}
+                      checked={schedules[day]?.active || false}
                       onCheckedChange={() => handleSwitchChange(day)}
                     />
                   </TableCell>
@@ -101,11 +116,11 @@ export function AvailabilityDays({
                   </TableCell>
                   <TableCell className="text-center align-middle py-2">
                     <Select
-                      value={schedules[day].from}
+                      value={schedules[day]?.from || ""}
                       onValueChange={(value) =>
                         handleTimeChange(day, "from", value)
                       }
-                      disabled={!schedules[day].active}>
+                      disabled={!schedules[day]?.active}>
                       <SelectTrigger className="w-full max-w-[120px] mx-auto">
                         <SelectValue />
                       </SelectTrigger>
@@ -122,18 +137,18 @@ export function AvailabilityDays({
                   </TableCell>
                   <TableCell className="text-center align-middle py-2">
                     <Select
-                      value={schedules[day].to}
+                      value={schedules[day]?.to || ""}
                       onValueChange={(value) =>
                         handleTimeChange(day, "to", value)
                       }
-                      disabled={!schedules[day].active}>
+                      disabled={!schedules[day]?.active}>
                       <SelectTrigger className="w-full max-w-[120px] mx-auto">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
                           {hours
-                            .filter((hour) => hour > schedules[day].from)
+                            .filter((hour) => hour > schedules[day]?.from)
                             .map((hour) => (
                               <SelectItem key={hour} value={hour}>
                                 {hour}

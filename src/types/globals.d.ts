@@ -18,3 +18,5 @@ export interface User {
   imageUrl?: string;
   phone?: number;
 }
+
+
