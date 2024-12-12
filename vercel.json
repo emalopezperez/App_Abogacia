@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/webhooks/clerk.ts",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/webhooks/clerk",
+      "methods": ["POST"],
+      "dest": "/api/webhooks/clerk.ts"
+    }
+  ]
+}
