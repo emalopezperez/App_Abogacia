@@ -93,9 +93,9 @@ export const columns: any[] = [
     ),
   },
   {
-    accessorKey: "name",
+    accessorKey: "username",
     header: "Name",
-    cell: ({ row }: any) => <div>{row.getValue("name")}</div>,
+    cell: ({ row }: any) => <div>{row.getValue("username")}</div>,
   },
   {
     accessorKey: "phone",

@@ -91,8 +91,7 @@ export async function getUsers() {
         _id: user._id.toString(),
         avatar: user.avatar,
         email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
+        username: user.username,
         role: user.role,
         phone: user.phone,
       };
