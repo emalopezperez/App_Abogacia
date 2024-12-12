@@ -17,24 +17,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { motion } from "framer-motion";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { days, hours } from "@/constants";
-import { Schedule } from "./types/types-event";
+import { Schedule } from "../types/types-event";
 
 interface AvailabilityDaysProps {
   setSchedules: React.Dispatch<React.SetStateAction<Record<string, Schedule>>>;
   schedules: Record<string, Schedule>;
 }
 
-export function AvailabilityDays({
+export function EditAvailabilityDays({
   setSchedules,
   schedules,
 }: AvailabilityDaysProps) {
@@ -71,14 +63,7 @@ export function AvailabilityDays({
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Establecer Disponibilidad</CardTitle>
-        <CardDescription>
-          Define los días y horarios en los que estarás disponible para las
-          citas.
-        </CardDescription>
-      </CardHeader>
+    <Card className="w-full border-none shadow-none">
       <CardContent>
         <Table>
           <TableHeader>
@@ -91,11 +76,7 @@ export function AvailabilityDays({
           </TableHeader>
           <TableBody>
             {days.map((day, index) => (
-              <motion.tr
-                key={day}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.1 }}>
+              <TableRow key={day}>
                 <TableCell className="font-medium">{day}</TableCell>
                 <TableCell>
                   <Switch
@@ -110,8 +91,8 @@ export function AvailabilityDays({
                       handleTimeChange(day, "from", value)
                     }
                     disabled={!schedules[day]?.active}>
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Selecciona hora de inicio" />
+                    <SelectTrigger className="w-[120px]">
+                      <SelectValue placeholder="Inicio" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
@@ -131,8 +112,8 @@ export function AvailabilityDays({
                       handleTimeChange(day, "to", value)
                     }
                     disabled={!schedules[day]?.active}>
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Selecciona hora de fin" />
+                    <SelectTrigger className="w-[120px]">
+                      <SelectValue placeholder="Fin" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
@@ -147,7 +128,7 @@ export function AvailabilityDays({
                     </SelectContent>
                   </Select>
                 </TableCell>
-              </motion.tr>
+              </TableRow>
             ))}
           </TableBody>
         </Table>

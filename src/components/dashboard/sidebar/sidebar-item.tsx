@@ -36,7 +36,7 @@ const SidebarItem = ({ item }: SidebarItemProps) => {
         <CollapsibleTrigger className="flex w-full items-center justify-between p-2 hover:bg-slate-300/20 rounded-lg cursor-pointer">
           <div className="flex items-center gap-x-2">
             <Icon strokeWidth={2} className="w-5 h-5" />
-            <span className="text-sm">{label}</span>
+            <span className="text-sm ">{label}</span>
           </div>
           <ChevronDown
             className={cn(
@@ -51,7 +51,7 @@ const SidebarItem = ({ item }: SidebarItemProps) => {
               key={subItem.href}
               href={subItem.href}
               className={cn(
-                "flex gap-x-2 mt-2 text-sm items-center hover:bg-slate-300/20 p-2 rounded-lg cursor-pointer ml-6",
+                "flex gap-x-2 mt-2 text-sm font-sans items-center hover:bg-slate-300/20 p-2 rounded-lg cursor-pointer ml-6",
                 pathname === subItem.href && "bg-slate-400/20"
               )}>
               <Icon strokeWidth={2} className="w-5 h-5" />

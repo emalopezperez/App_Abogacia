@@ -16,14 +16,16 @@ interface HeaderTitleProps {
 export const HeaderTitle = (props: HeaderTitleProps) => {
   const { title, contentToolTip, description } = props;
   return (
-    <Card>
+    <Card className="">
       <CardHeader className="">
         <div className="flex justify-between items-center">
-          <CardTitle className="text-3xl">{title}</CardTitle>
+          <CardTitle className="text-3xl font-semibold font-serif">
+            {title}
+          </CardTitle>
           <CustomToolTip content={contentToolTip} />
         </div>
 
-        <CardDescription className="mt-4">
+        <CardDescription className="mt-4 font-sans">
           Create a new appointment type that allows people to book times.
         </CardDescription>
       </CardHeader>

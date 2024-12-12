@@ -2,16 +2,5 @@ import { EventManagementTabs } from "@/components/dashboard/event/event-manageme
 import { HeaderTitle } from "@/components/shared/header-title";
 
 export default async function CreateEvents() {
-  return (
-    <>
-      <HeaderTitle
-        title="Crear nuevo evento"
-        contentToolTip="Crear nuevo evento"
-        description="Crear nuevo evento"
-      />
-      <div className="mt-10">
-        <EventManagementTabs />
-      </div>
-    </>
-  );
+  return <EventManagementTabs />;
 }

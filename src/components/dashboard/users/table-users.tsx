@@ -169,6 +169,8 @@ export function TableUsers({ users }: { users: any[] }) {
     },
   });
 
+  console.log(users);
+
   return (
     <div className="w-full">
       <div className="flex items-center py-4">

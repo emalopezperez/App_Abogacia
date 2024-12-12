@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -19,7 +13,13 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
-const CreateNewEvent = ({ data, setData }: { data: any; setData: any }) => {
+export const EditCreateNewEvent = ({
+  data,
+  setData,
+}: {
+  data: any;
+  setData: any;
+}) => {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -31,13 +31,7 @@ const CreateNewEvent = ({ data, setData }: { data: any; setData: any }) => {
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Detalles del Evento</CardTitle>
-        <CardDescription>
-          Proporciona la información básica para tu nuevo evento.
-        </CardDescription>
-      </CardHeader>
+    <Card className="w-full border-none shadow-none">
       <CardContent>
         <form noValidate className="space-y-6">
           <div className="space-y-2">
@@ -89,10 +83,17 @@ const CreateNewEvent = ({ data, setData }: { data: any; setData: any }) => {
             <Select
               name="duration"
               value={data.duration}
+              defaultValue={data.duration}
               onValueChange={handleDurationChange}
               required>
               <SelectTrigger>
-                <SelectValue placeholder="Selecciona la duración" />
+                <SelectValue>
+                  {data.duration
+                    ? `${data.duration} ${
+                        data.duration === "60" ? "hora" : "minutos"
+                      }`
+                    : "Selecciona la duración"}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
@@ -109,5 +110,3 @@ const CreateNewEvent = ({ data, setData }: { data: any; setData: any }) => {
     </Card>
   );
 };
-
-export default CreateNewEvent;

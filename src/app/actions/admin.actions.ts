@@ -26,6 +26,8 @@ export async function CreateEvent(data: any) {
       length: data.duration,
       bookingTimes: data.bookingTimes,
     });
+
+    revalidatePath("/dashboard/events");
     return { succes: "Succes" };
   } catch (error) {
     handleError(error);
@@ -60,6 +62,31 @@ export async function DeleteEvent(id: string) {
     await EventTypeModel.findByIdAndDelete(id);
     revalidatePath("/dashboard/events");
     return { success: "Event deleted successfully" };
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+export async function UpdateEvent(id: string, data: any) {
+  const email = await getEmail();
+  const isAdmin = await checkRole("admin");
+
+  if (!isAdmin) {
+    throw new Error("Access denied");
+  }
+
+  try {
+    await connectToDatabase();
+    await EventTypeModel.findByIdAndUpdate(id, {
+      email,
+      title: data.title,
+      uri: data.url,
+      description: data.description,
+      length: data.duration,
+      bookingTimes: data.bookingTimes,
+    });
+    revalidatePath("/dashboard/events");
+    return { success: "Event updated successfully" };
   } catch (error) {
     handleError(error);
   }

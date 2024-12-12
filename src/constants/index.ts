@@ -30,7 +30,11 @@ export const dataSidebar = [
     icon: BookAIcon,
     label: "Blog",
   },
-
+  {
+    href: "/dashboard/bookins",
+    icon: Calendar,
+    label: "Bookins",
+  },
   {
     href: "/dashboard/events",
     icon: Calendar,
@@ -75,11 +79,6 @@ export const dataSupportSidebar = [
     href: "/",
     icon: ShieldCheck,
     label: "Security",
-  },
-  {
-    href: "/bookins",
-    icon: ShieldCheck,
-    label: "Bookins-web",
   },
 ];
 

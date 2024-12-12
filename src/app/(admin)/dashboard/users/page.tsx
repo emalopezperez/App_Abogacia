@@ -11,7 +11,7 @@ export default async function Page() {
         contentToolTip="Usuarios"
         description="Usuarios"
       />
-      {/* <TableUsers users={users} /> */}
+      <TableUsers users={users} />
     </div>
   );
 }

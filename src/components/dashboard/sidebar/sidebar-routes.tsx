@@ -9,7 +9,7 @@ const SidebarRoutes = () => {
     <aside className="flex flex-col justify-between h-full">
       <div>
         <div className="p-2 md:p-4">
-          <h3 className="text-slate-500 mb-2">General</h3>
+          <h3 className="text-slate-600 mb-2 font-serif">General</h3>
           {dataSidebar.map((item) => (
             <SidebarItem key={item.label} item={item} />
           ))}
@@ -17,7 +17,7 @@ const SidebarRoutes = () => {
 
         <Separator />
         <div className="p-2 md:p-4">
-          <h3 className="text-slate-500 mb-2">Suports</h3>
+          <h3 className="text-slate-600 mb-2 font-serif">Suports</h3>
           {dataToolsSidebar.map((item) => (
             <SidebarItem key={item.label} item={item} />
           ))}
@@ -26,7 +26,7 @@ const SidebarRoutes = () => {
         <Separator />
 
         <div className="p-2 md:p-4">
-          <h3 className="text-slate-500 mb-2">Settings</h3>
+          <h3 className="text-slate-600 mb-2 font-serif">Settings</h3>
           {dataSupportSidebar.map((item) => (
             <SidebarItem key={item.label} item={item} />
           ))}
@@ -34,7 +34,7 @@ const SidebarRoutes = () => {
       </div>
       <div>
         <Separator />
-        <footer className="mt-2 p-3 text-center">
+        <footer className="mt-2 p-3 text-center font-serif">
           2024 © All rights reserved
         </footer>
       </div>

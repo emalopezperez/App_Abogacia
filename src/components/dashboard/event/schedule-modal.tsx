@@ -46,7 +46,7 @@ export function ScheduleModal({
               const schedule = bookingTimes[day];
               return (
                 <div key={day} className="mb-4 last:mb-0">
-                  <h3 className="font-semibold capitalize">{day}</h3>
+                  <h3 className="font-semibold capitalize ">{day}</h3>
                   <p className="text-sm text-muted-foreground">
                     {schedule.from} - {schedule.to}
                   </p>

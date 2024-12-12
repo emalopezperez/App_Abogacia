@@ -7,7 +7,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
 import { AlertCircle, CheckCircle } from "lucide-react";
@@ -42,7 +41,7 @@ const CustomAlertDialog = ({
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             type="submit"
-            className="transition-all duration-300 bg-gray-900 text-white hover:bg-gray-500 hover:text-white"
+            className="transition-all duration-300  text-white hover:bg-gray-500 hover:text-white"
             onClick={fc}>
             Aceptar
           </AlertDialogAction>
