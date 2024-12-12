@@ -5,7 +5,7 @@ import { createUser, deleteUser, updateUser } from "@/app/actions/user.actions";
 
 
 export async function POST(req: Request) {
-  const WEBHOOK_SECRET = process.env.SIGNING_SECRET;
+  const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 
   if (!WEBHOOK_SECRET) {
     throw new Error(
