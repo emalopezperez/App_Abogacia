@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/card";
 
 import { days, hours } from "@/constants";
-import { Schedule } from "./types-schedule";
+import { Schedule } from "./types/types-event";
 
 interface AvailabilityDaysProps {
   setSchedules: React.Dispatch<React.SetStateAction<Record<string, Schedule>>>;
@@ -58,7 +58,7 @@ export function AvailabilityDays({
   };
 
   return (
-    <Card className="w-full  ">
+    <Card className="w-full  shadow-xl">
       <motion.div
         className=" overflow-hidden pb-8 "
         initial={{ opacity: 0, y: 20 }}

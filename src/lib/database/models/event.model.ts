@@ -5,7 +5,7 @@ import { BookingTimes, FromTo, WeekdayName } from './types';
 const FromToSchema = new mongoose.Schema({
   start: String,
   end: String,
-  enabled: Boolean,
+  active: Boolean,
 });
 
 export interface IEventType extends mongoose.Document {

@@ -30,6 +30,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { HeaderTitle } from "@/components/shared/header-title";
 const chartData = [
   { month: "January", desktop: 186, mobile: 80 },
   { month: "February", desktop: 305, mobile: 200 },
@@ -53,9 +54,13 @@ const chartConfig = {
 export default function Page() {
   return (
     <main className="">
-      <h2 className="text-2xl mb-4">Dashboard</h2>
+      <HeaderTitle
+        title="Dashboard"
+        contentToolTip="Dashboard"
+        description="Dashboard"
+      />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-x-20 ">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-x-20 mt-10">
         {dataCardSumary.map((item, index) => (
           <CardSumary
             key={index}
@@ -68,7 +73,7 @@ export default function Page() {
         ))}
       </div>
 
-      <div className="flex lg:flex-row flex-col lg:gap-10 gap-4 gap-5 mt-12">
+      <div className="flex lg:flex-row flex-col lg:gap-10  gap-5 mt-12">
         <Card className="w-[400px]">
           <CardHeader>
             <CardTitle>Clients</CardTitle>

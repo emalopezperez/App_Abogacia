@@ -1,7 +1,9 @@
+import { HeaderTitle } from "@/components/shared/header-title";
+
 export default async function Page() {
   return (
     <div>
-      <h1>Blog</h1>
+      <HeaderTitle title="Blog" contentToolTip="Blog" description="Blog" />
     </div>
   );
 }

@@ -4,9 +4,10 @@ import { nylasConfig } from "@/lib/nylas";
 import { redirect } from "next/navigation";
 import { checkRole } from "@/lib/roles";
 import { connectToDatabase } from "@/lib/mongoose";
-import { Administrator } from "@/lib/database/models/appointment.model";
+
 import { getAuth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
+import { Admin } from "@/lib/database/models/admin.model";
 
 export async function GET(request: NextRequest) {
   const { userId } = getAuth(request);
@@ -40,7 +41,7 @@ export async function GET(request: NextRequest) {
 
     const { grantId, email } = response;
 
-    await Administrator.updateOne(
+    await Admin.updateOne(
       { clerkUserId: userId },
       { $set: { nylasGrantId: grantId, nylasEmail: email } }
     );

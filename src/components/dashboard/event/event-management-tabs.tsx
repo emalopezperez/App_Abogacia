@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -21,17 +20,20 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { PlusCircle, Calendar, HelpCircle } from "lucide-react";
+import { PlusCircle, Calendar } from "lucide-react";
 
 import CreateNewEvent from "./create-new-event";
 import { AvailabilityDays } from "./availability-days";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { days } from "@/constants";
-import { Schedule } from "./types-schedule";
+import { Schedule } from "./types/types-event";
+import { toast } from "sonner";
 import { CreateEvent } from "@/app/actions/admin.actions";
+import { useRouter } from "next/navigation";
 
 export function EventManagementTabs() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState("create-events");
   const [data, setData] = useState({
     title: "",
@@ -57,17 +59,29 @@ export function EventManagementTabs() {
       duration: data.duration,
       bookingTimes: schedules,
     };
-
     try {
       const result = await CreateEvent(newData);
-      console.log("Evento creado:", result);
+      if (result) {
+        toast("Evento creado correctamente", {
+          description: "Sunday, December 03, 2023 at 9:00 AM",
+          action: {
+            label: "cerrar",
+            onClick: () => console.log("Cerrando"),
+          },
+        });
+        router.push("/dashboard/events");
+      }
     } catch (error) {
       console.error("Error al crear el evento:", error);
     }
   };
 
+  const isFormComplete = () => {
+    return Object.values(data).every((value) => value.trim() !== "");
+  };
+
   return (
-    <div className="flex lg:flex-row flex-col gap-2 lg:gap-14 ">
+    <div className="flex lg:flex-row flex-col gap-2 lg:gap-6">
       <Card className=" w-full lg:w-[700px] bg-inherit">
         <CardContent>
           <Tabs
@@ -109,7 +123,6 @@ export function EventManagementTabs() {
           </Tabs>
         </CardContent>
       </Card>
-
       <AnimatePresence mode="wait">
         <motion.div
           key={activeTab}
@@ -117,7 +130,7 @@ export function EventManagementTabs() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.2 }}>
-          <div className="  mt-2  lg:mt-40 bg-slate-200/20 rounded-lg">
+          <div className="  mt-2 lg:mt-20 bg-slate-200/20 rounded-lg shadow-lg">
             <CardHeader className="">
               <CardTitle className="text-xl font-semibold">
                 Agregar Evento
@@ -133,6 +146,7 @@ export function EventManagementTabs() {
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <Button
+                    disabled={!isFormComplete()}
                     variant="outline"
                     className="transition-all duration-300 bg-gray-900 text-white hover:bg-gray-500 hover:text-white">
                     Agregar Evento

@@ -4,7 +4,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Input } from "@/components/ui/input";
 import { Menu, SearchIcon } from "lucide-react";
 import { UserButton } from "@clerk/nextjs";
 import SidebarRoutes from "./sidebar/sidebar-routes";

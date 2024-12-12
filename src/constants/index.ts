@@ -35,7 +35,16 @@ export const dataSidebar = [
     href: "/dashboard/events",
     icon: Calendar,
     label: "Eventos",
+    subItems: [
+      { label: "Todos los eventos", href: "/dashboard/events", icon: Calendar },
+      {
+        label: "Crear evento",
+        href: "/dashboard/events/create-events",
+        icon: Calendar,
+      },
+    ],
   },
+
   {
     href: "/dashboard/users",
     icon: Users2,
@@ -98,7 +107,6 @@ export const dataCardSumary = [
   },
 ];
 
-
 export const days = [
   "lunes",
   "martes",
@@ -110,8 +118,8 @@ export const days = [
 ];
 
 export const hours = Array.from({ length: 24 }, (_, i) => i)
-.map((hour) => [
-  `${hour.toString().padStart(2, "0")}:00`,
-  `${hour.toString().padStart(2, "0")}:30`,
-])
-.flat();
+  .map((hour) => [
+    `${hour.toString().padStart(2, "0")}:00`,
+    `${hour.toString().padStart(2, "0")}:30`,
+  ])
+  .flat();
