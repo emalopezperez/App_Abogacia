@@ -1,11 +1,12 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import User from "../../lib/database/models/user.model";
 import { handleError } from "../../lib/utils";
 import { connectToDatabase } from "../../lib/mongoose";
 import { checkRole } from "@/lib/roles";
-import userModel from "../../lib/database/models/user.model";
+import userModel from "@/lib/database/models/user.model";
+
+
 
 export async function createUser(user: any) {
   try {
@@ -80,7 +81,7 @@ export async function getUsers() {
   try {
     await connectToDatabase();
 
-    const users = await User.find({});
+    const users = await userModel.find({});
 
     if (!users) throw new Error("User not found");
 
@@ -103,7 +104,7 @@ export async function getUserById(userId: string) {
   try {
     await connectToDatabase();
 
-    const user = await User.findOne({ clerkId: userId });
+    const user = await userModel.findOne({ clerkId: userId });
 
     if (!user) throw new Error("User not found");
 
