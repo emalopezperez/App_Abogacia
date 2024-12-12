@@ -6,8 +6,6 @@ import { connectToDatabase } from "../../lib/mongoose";
 import { checkRole } from "@/lib/roles";
 import userModel from "@/lib/database/models/user.model";
 
-
-
 export async function createUser(user: any) {
   try {
     await connectToDatabase();
@@ -83,13 +81,24 @@ export async function getUsers() {
 
     const users = await userModel.find({});
 
-    if (!users) throw new Error("User not found");
+    console.log(users);
 
-    return {
-      success: true,
-      message: "Users successfully",
-      users: users,
-    };
+    if (!users || users.length === 0) throw new Error("User not found");
+
+    const cleanedUsers = users.map((user) => {
+      return {
+        ...user.toObject(),
+        _id: user._id.toString(),
+        avatar: user.avatar,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        role: user.role,
+        phone: user.phone,
+      };
+    });
+
+    return cleanedUsers;
   } catch (error) {
     handleError(error);
   }

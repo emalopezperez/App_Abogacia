@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import {
-  ColumnDef,
   ColumnFiltersState,
   SortingState,
   VisibilityState,
@@ -37,17 +36,17 @@ import {
 } from "@/components/ui/table";
 import { deleteUser } from "@/app/actions/user.actions";
 
-export const columns: ColumnDef<any>[] = [
+export const columns: any[] = [
   {
     id: "select",
-    header: ({ table }) => (
+    header: ({ table }: any) => (
       <Checkbox
         checked={table.getIsAllPageRowsSelected()}
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
       />
     ),
-    cell: ({ row }) => (
+    cell: ({ row }: any) => (
       <Checkbox
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
@@ -58,10 +57,10 @@ export const columns: ColumnDef<any>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "image",
+    accessorKey: "avatar",
     header: "Image",
-    cell: ({ row }) => {
-      const imageUrl = row.getValue("image");
+    cell: ({ row }: any) => {
+      const imageUrl = row.getValue("avatar");
       return (
         <>
           {imageUrl ? (
@@ -78,9 +77,10 @@ export const columns: ColumnDef<any>[] = [
       );
     },
   },
+  ,
   {
     accessorKey: "email",
-    header: ({ column }) => (
+    header: ({ column }: any) => (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
@@ -88,22 +88,24 @@ export const columns: ColumnDef<any>[] = [
         <ArrowUpDown />
       </Button>
     ),
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+    cell: ({ row }: any) => (
+      <div className="lowercase">{row.getValue("email")}</div>
+    ),
   },
   {
     accessorKey: "name",
     header: "Name",
-    cell: ({ row }) => <div>{row.getValue("name")}</div>,
+    cell: ({ row }: any) => <div>{row.getValue("name")}</div>,
   },
   {
     accessorKey: "phone",
     header: "Phone",
-    cell: ({ row }) => <div>{row.getValue("phone")}</div>,
+    cell: ({ row }: any) => <div>{row.getValue("phone")}</div>,
   },
   {
     id: "actions",
     enableHiding: false,
-    cell: ({ row }) => {
+    cell: ({ row }: any) => {
       const user = row.original;
 
       const handleDeleteUser = async (id: string): Promise<void> => {
@@ -168,8 +170,6 @@ export function TableUsers({ users }: { users: any[] }) {
       rowSelection,
     },
   });
-
-  console.log(users);
 
   return (
     <div className="w-full">

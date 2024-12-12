@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema(
     phone: { type: String },
     createdAt: { type: Date },
     lastActiveAt: { type: Date },
+    username: { type: String },
   },
   {
     autoIndex: false,
