@@ -1,5 +1,5 @@
 import { getUsers } from "@/app/actions/user.actions";
-import { TableUsers } from "@/components/dashboard/users/table-users";
+// import { TableUsers } from "@/components/dashboard/users/table-users";
 import { HeaderTitle } from "@/components/shared/header-title";
 
 export default async function Page() {
@@ -11,7 +11,7 @@ export default async function Page() {
         contentToolTip="Usuarios"
         description="Usuarios"
       />
-      <TableUsers users={users} />
+      {/* <TableUsers users={users} /> */}
     </div>
   );
 }
