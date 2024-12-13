@@ -2,7 +2,7 @@ import { nylas } from "@/lib/nylas";
 import { NextRequest } from "next/server";
 import { nylasConfig } from "@/lib/nylas";
 import { redirect } from "next/navigation";
-import { checkRole } from "@/lib/roles";
+import { isAdmin } from "@/utils/isAdmin";
 import { connectToDatabase } from "@/lib/mongoose";
 
 import { getAuth } from "@clerk/nextjs/server";
@@ -12,9 +12,9 @@ import { Admin } from "@/lib/database/models/admin.model";
 export async function GET(request: NextRequest) {
   const { userId } = getAuth(request);
 
-  const isAdmin = await checkRole("admin");
+  const isAdminCheck = await isAdmin();
 
-  if (!isAdmin) {
+  if (!isAdminCheck) {
     return new NextResponse(JSON.stringify({ error: "Access denied" }), {
       status: 403,
     });

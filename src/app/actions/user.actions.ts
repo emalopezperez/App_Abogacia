@@ -1,9 +1,9 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { handleError } from "../../lib/utils";
+import { handleError } from "../../utils/utils";
 import { connectToDatabase } from "../../lib/mongoose";
-import { checkRole } from "@/lib/roles";
+import { isAdmin } from "@/utils/isAdmin";
 import userModel from "@/lib/database/models/user.model";
 
 export async function createUser(user: any) {
@@ -70,9 +70,9 @@ export async function deleteUser(clerkId: string) {
 }
 
 export async function getUsers() {
-  const isAdmin = await checkRole("admin");
+  const isAdminCheck = await isAdmin();
 
-  if (!isAdmin) {
+  if (!isAdminCheck) {
     throw new Error("Access denied");
   }
 
@@ -104,9 +104,9 @@ export async function getUsers() {
 }
 
 export async function getUserById(userId: string) {
-  const isAdmin = await checkRole("admin");
+  const isAdminCheck = await isAdmin();
 
-  if (!isAdmin) {
+  if (!isAdminCheck) {
     throw new Error("Access denied");
   }
   try {

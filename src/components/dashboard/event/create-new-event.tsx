@@ -1,5 +1,4 @@
-"use client";
-
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -18,6 +17,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+
+type Platform = "Zoom Meeting" | "Google Meet" | "Microsoft Teams";
 
 const CreateNewEvent = ({ data, setData }: { data: any; setData: any }) => {
   const handleChange = (
@@ -28,6 +30,47 @@ const CreateNewEvent = ({ data, setData }: { data: any; setData: any }) => {
 
   const handleDurationChange = (value: string) => {
     setData({ ...data, duration: value });
+  };
+
+  const handleMeetingTypeChange = (value: string) => {
+    console.log(value);
+    if (value === "virtual") {
+      setData({
+        ...data,
+        platform: {
+          ...data.platform,
+          status: true,
+          name: data.platform.name || "Google Meet",
+        },
+        presential: { ...data.presential, status: false, address: "" },
+      });
+    } else if (value === "presential") {
+      setData({
+        ...data,
+        platform: { ...data.platform, status: false },
+        presential: {
+          ...data.presential,
+          status: true,
+          address: data.presential.address || "",
+        },
+      });
+    }
+  };
+
+  const handlePlatformChange = (value: string) => {
+    setData({
+      ...data,
+      platform: { ...data.platform, name: value },
+    });
+  };
+
+  const handlePresentialAddressChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setData({
+      ...data,
+      presential: { ...data.presential, address: e.target.value },
+    });
   };
 
   return (
@@ -85,13 +128,64 @@ const CreateNewEvent = ({ data, setData }: { data: any; setData: any }) => {
           </div>
 
           <div className="space-y-2">
+            <Label>Tipo de Reunión</Label>
+            <RadioGroup
+              value={data.platform.status ? "virtual" : "presential"}
+              onValueChange={handleMeetingTypeChange}
+              className="flex flex-col space-y-1">
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="virtual" id="virtual" />
+                <Label htmlFor="virtual">Virtual</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="presential" id="presential" />
+                <Label htmlFor="presential">Presencial</Label>
+              </div>
+            </RadioGroup>
+          </div>
+
+          {data.platform.status ? (
+            <div className="space-y-2">
+              <Label htmlFor="platform">Plataforma de reunión virtual</Label>
+              <Select
+                value={data.platform.name}
+                onValueChange={handlePlatformChange}>
+                <SelectTrigger id="platform">
+                  <SelectValue placeholder="Selecciona una plataforma" />
+                </SelectTrigger>
+                <SelectContent className="cursor-pointer">
+                  <SelectGroup>
+                    <SelectItem value="Zoom">Zoom</SelectItem>
+                    <SelectItem value="Google Meet">Google Meet</SelectItem>
+                    <SelectItem value="Microsoft Teams">
+                      Microsoft Teams
+                    </SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              <Label htmlFor="presential">Dirección</Label>
+              <Input
+                id="presential"
+                name="presential"
+                value={data.presential.address}
+                placeholder="Ingresa la dirección de la reunión"
+                onChange={handlePresentialAddressChange}
+                required
+              />
+            </div>
+          )}
+
+          <div className="space-y-2">
             <Label htmlFor="duration">Duración</Label>
             <Select
               name="duration"
               value={data.duration}
               onValueChange={handleDurationChange}
               required>
-              <SelectTrigger>
+              <SelectTrigger id="duration">
                 <SelectValue placeholder="Selecciona la duración" />
               </SelectTrigger>
               <SelectContent>

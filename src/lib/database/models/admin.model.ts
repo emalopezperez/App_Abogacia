@@ -5,12 +5,6 @@ const AdminSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true, index: true },
   name: { type: String, required: true },
   imageUrl: { type: String },
-  availability: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Availability",
-    },
-  ],
   phone: { type: String },
   nylasGrantId: { type: String },
   nylasEmail: { type: String },
@@ -19,5 +13,4 @@ const AdminSchema = new mongoose.Schema({
 });
 
 export const Admin =
-  mongoose.models.Admin ||
-  mongoose.model("Admin", AdminSchema);
+  mongoose.models.Admin || mongoose.model("Admin", AdminSchema);

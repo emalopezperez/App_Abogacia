@@ -38,7 +38,9 @@ export function EventManagementTabs() {
     title: "",
     url: "",
     description: "",
-    duration: "",
+    duration: "60",
+    platform: { status: true, name: "Google Meet" },
+    presential: { status: false, address: "Montevideo, Uruguay" },
   });
   const [schedules, setSchedules] = useState<Record<string, Schedule>>(
     days.reduce(
@@ -57,6 +59,8 @@ export function EventManagementTabs() {
       description: data.description,
       duration: data.duration,
       bookingTimes: schedules,
+      platform: data.platform,
+      presential: data.presential,
     };
     try {
       const result = await CreateEvent(newData);
@@ -76,7 +80,7 @@ export function EventManagementTabs() {
 
   const isFormComplete = () => {
     return (
-      Object.values(data).every((value) => value.trim() !== "") &&
+      Object.values(data).every((value) => value !== "") &&
       Object.values(schedules).some((schedule) => schedule.active)
     );
   };

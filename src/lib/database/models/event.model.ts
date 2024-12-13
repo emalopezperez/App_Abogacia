@@ -1,5 +1,5 @@
 import mongoose, { Model } from "mongoose";
-import { BookingTimes, FromTo, WeekdayName } from "./types";
+import { BookingTimes } from "./types/types";
 
 const FromToSchema = new mongoose.Schema({
   from: { type: String },
@@ -13,6 +13,14 @@ export interface IEventType extends mongoose.Document {
   title: string;
   description: string;
   length: number;
+  platform: {
+    status: boolean;
+    name: string;
+  };
+  presential: {
+    status: boolean;
+    address: string;
+  };
   bookingTimes: BookingTimes;
   createdAt: Date;
   updatedAt: Date;
@@ -35,6 +43,14 @@ const EventTypeSchema = new mongoose.Schema<IEventType>(
     title: String,
     description: String,
     length: Number,
+    platform: {
+      status: Boolean,
+      name: String,
+    },
+    presential: {
+      status: Boolean,
+      address: String,
+    },
     bookingTimes: BookingSchema,
   },
   {
