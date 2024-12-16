@@ -30,4 +30,16 @@ export type CardEventsType = {
   description: string;
   length: number;
   bookingTimes: BookingTimes;
+  presential?: PresentialType;
+  online?: OnlineType;
 };
+
+interface PresentialType {
+  status: boolean;
+  address: string;
+}
+
+interface OnlineType {
+  status: boolean;
+  uri: string;
+}

@@ -172,7 +172,7 @@ export function TableUsers({ users }: { users: any[] }) {
   });
 
   return (
-    <div className="w-full">
+    <div className="w-full bg-white dark:bg-gray-800 rounded-lg p-4">
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter emails..."
