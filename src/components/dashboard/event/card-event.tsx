@@ -37,6 +37,7 @@ import {
 } from "@/components/ui/tooltip";
 import { motion, AnimatePresence } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Link from "next/link";
 
 type EventType = {
   event: CardEventsType;
@@ -57,7 +58,9 @@ const CardEvent = ({ event, setIsOpenAlert, isOpenAlert }: EventType) => {
     .map(([day]) => day as WeekdayName);
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(`agenda.com/${event?.uri}`);
+    navigator.clipboard.writeText(
+      `${process.env.NEXT_PUBLIC_URL}/bookins/${event?.uri}`
+    );
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2000);
   };
@@ -68,17 +71,19 @@ const CardEvent = ({ event, setIsOpenAlert, isOpenAlert }: EventType) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className="w-full max-w-md mx-auto">
-      <Card className="overflow-hidden bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-300 h-[350px] flex flex-col relative">
+      <Card className=" overflow-hidden bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-300 h-[350px] flex flex-col relative">
         <div className="absolute top-0 right-0 z-10">
-          <Badge
-            variant={event.presential?.status ? "default" : "secondary"}
-            className={`text-xs font-semibold px-3 py-1 rounded-bl-lg ${
-              event.presential?.status
-                ? "bg-green-800 text-white"
-                : "bg-purple-800 text-white"
-            }`}>
-            {event.presential?.status ? "Presencial" : "Online"}
-          </Badge>
+          <Link href={`/bookins/${event?.uri}`}>
+            <Badge
+              variant={event.presential?.status ? "default" : "secondary"}
+              className={`text-xs font-semibold px-3 py-1 rounded-bl-lg ${
+                event.presential?.status
+                  ? "bg-green-800 text-white"
+                  : "bg-purple-800 text-white"
+              }`}>
+              {event.presential?.status ? "Presencial" : "Online"}
+            </Badge>
+          </Link>
         </div>
         <CardHeader className="p-6 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white flex-shrink-0">
           <div className="flex flex-col space-y-2">
@@ -128,7 +133,7 @@ const CardEvent = ({ event, setIsOpenAlert, isOpenAlert }: EventType) => {
               ) : (
                 <>
                   <LinkIcon className="w-4 h-4 flex-shrink-0" />
-                  <span className="truncate">agenda.com/{event?.uri}</span>
+                  <span className="truncate">agenda.com/{event?.uri}.com</span>
                   <Button
                     onClick={copyToClipboard}
                     variant="ghost"

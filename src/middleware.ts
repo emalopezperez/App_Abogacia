@@ -20,6 +20,7 @@ export default clerkMiddleware(async (auth, req) => {
       return NextResponse.redirect(url);
     }
   }
+  
 
   return NextResponse.next();
 });

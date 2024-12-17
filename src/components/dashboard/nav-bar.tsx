@@ -13,7 +13,7 @@ import { Search } from "./search";
 
 const NavBar = () => {
   return (
-    <div className="flex sticky top-0 items-center px-2 gap-x-4 md:px-4 justify-between w-full bg-background border-b h-20 z-50">
+    <div className="flex items-center px-2 gap-x-4 md:px-4 justify-between w-full bg-background border-b h-20 z-50">
       <div className="block xl:hidden">
         <Sheet>
           <SheetTrigger className="flex items-center">

@@ -29,12 +29,16 @@ export const dataSidebar = [
     href: "/dashboard/blog",
     icon: BookAIcon,
     label: "Blog",
+    subItems: [
+      { label: "Blogs", href: "/dashboard/blogs", icon: BookAIcon },
+      {
+        label: "Crear blog",
+        href: "/dashboard/blogs/create-blog",
+        icon: BookAIcon,
+      },
+    ],
   },
-  {
-    href: "/dashboard/bookins",
-    icon: Calendar,
-    label: "Bookins",
-  },
+
   {
     href: "/dashboard/events",
     icon: Calendar,
@@ -47,6 +51,11 @@ export const dataSidebar = [
         icon: Calendar,
       },
     ],
+  },
+  {
+    href: "/dashboard/bookins",
+    icon: Calendar,
+    label: "Bookins",
   },
 
   {

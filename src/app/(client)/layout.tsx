@@ -5,7 +5,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <main className="">
       <div className=" bg-[#fafbfc] dark:bg-secondary ">
         <Nav />
-        {children}
+        <div className=" mt-10">{children}</div>
       </div>
     </main>
   );

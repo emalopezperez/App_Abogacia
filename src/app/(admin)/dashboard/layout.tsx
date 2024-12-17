@@ -4,15 +4,15 @@ import { Toaster } from "@/components/ui/sonner";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <main className="flex w-full h-full">
-      <div className="hidden xl:block w-80 h-full xl:fixed">
+    <main className="flex w-full h-screen overflow-hidden">
+      <div className="hidden xl:block w-80 h-full">
         <Sidebar />
       </div>
 
-      <div className="w-full xl:ml-80 ">
+      <div className="flex flex-col w-full xl:w-[calc(100%-20rem)] h-full overflow-hidden">
         <NavBar />
-        <div className="p-6 bg-[#fafbfc] dark:bg-secondary ">
-          {children}
+        <div className="flex-1 overflow-y-auto bg-[#fafbfc] dark:bg-secondary">
+          <div className="p-6">{children}</div>
           <Toaster />
         </div>
       </div>

@@ -10,6 +10,17 @@ import { isAdmin } from "@/utils/isAdmin";
 import userModel from "@/lib/database/models/user.model";
 import { getUser } from "@/utils/get-user";
 
+interface DaySchedule {
+  _id?: string;
+  start: string;
+  end: string;
+  active: boolean;
+}
+
+interface BookingTimes {
+  [key: string]: DaySchedule;
+}
+
 export async function CreateEvent(data: any) {
   const isAdminCheck = await isAdmin();
   const admin = await getAdmin();
@@ -181,6 +192,46 @@ export async function createBooking(data: any) {
     return { message: "Meeting created successfully", response };
   } catch (error) {
     console.error(error);
+    handleError(error);
+  }
+}
+
+export async function getEvent(eventUrl: string) {
+  const user = await getUser();
+  const userId = user?.id;
+
+  if (!userId) {
+    throw new Error("User not authenticated");
+  }
+  try {
+    await connectToDatabase();
+    const event = await EventTypeModel.findOne({ uri: eventUrl }).lean();
+    const bookingTimes = event?.bookingTimes as BookingTimes;
+
+    const daysArray = Object.keys(bookingTimes || {})
+      .filter((day) => day !== "_id")
+      .map((day) => {
+        const { _id, ...rest } = bookingTimes[day];
+        return { day, ...rest };
+      });
+
+    
+
+    const eventData = {
+      title: event?.title,
+      description: event?.description,
+      length: event?.length,
+      platform: event?.platform,
+      presential: event?.presential,
+    };
+
+    const bookins = {
+      days: daysArray,
+      event: eventData,
+    };
+
+    return bookins;
+  } catch (error) {
     handleError(error);
   }
 }

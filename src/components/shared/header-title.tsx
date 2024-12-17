@@ -19,9 +19,7 @@ export const HeaderTitle = (props: HeaderTitleProps) => {
     <Card className="">
       <CardHeader className="">
         <div className="flex justify-between items-center">
-          <CardTitle className="text-3xl font-semibold font-serif">
-            {title}
-          </CardTitle>
+          <CardTitle className="text-3xl font-semibold ">{title}</CardTitle>
           <CustomToolTip content={contentToolTip} />
         </div>
 

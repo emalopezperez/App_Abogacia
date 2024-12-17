@@ -89,7 +89,7 @@ export function EventManagementTabs() {
     <div className="container mx-auto  ">
       <Card className="w-full bg-card">
         <CardHeader>
-          <CardTitle className="text-3xl font-semibold font-serif ">
+          <CardTitle className="text-3xl font-semibold ">
             Agregar un nuevo evento
           </CardTitle>
           <CardDescription className="font-sans">
