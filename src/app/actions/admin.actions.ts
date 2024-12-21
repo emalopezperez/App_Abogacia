@@ -215,9 +215,12 @@ export async function getEvent(eventUrl: string) {
         return { day, ...rest };
       });
 
-    
+    if (!event) {
+      throw new Error("Event not found");
+    }
 
     const eventData = {
+      id: event._id.toString(),
       title: event?.title,
       description: event?.description,
       length: event?.length,
@@ -233,5 +236,28 @@ export async function getEvent(eventUrl: string) {
     return bookins;
   } catch (error) {
     handleError(error);
+  }
+}
+
+export async function getAvailability(selectedDate: Date) {
+  try {
+    const startOfDay = new Date(selectedDate);
+    startOfDay.setHours(0, 0, 0, 0);
+    const endOfDay = new Date(selectedDate);
+    endOfDay.setHours(23, 59, 59, 999);
+
+    const nylasCalendarData = await nylas.calendars.getFreeBusy({
+      identifier: process.env.NYLAS_GRANT_ID!,
+      requestBody: {
+        startTime: Math.floor(startOfDay.getTime() / 1000),
+        endTime: Math.floor(endOfDay.getTime() / 1000),
+        emails: [process.env.NYLAS_EMAIL!],
+      },
+    });
+
+    return { nylasCalendarData };
+  } catch (error) {
+    console.error("Error al obtener la disponibilidad:", error);
+    return { nylasCalendarData: null };
   }
 }

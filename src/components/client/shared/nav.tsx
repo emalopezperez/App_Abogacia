@@ -9,12 +9,10 @@ import {
 import { Menu, SearchIcon, UserPlus } from "lucide-react";
 import { UserButton, useUser } from "@clerk/nextjs";
 
-import Logo from "../ui/logo";
-import { ModeToggle } from "../shared/toggle-theme";
-import SidebarRoutes from "../dashboard/sidebar/sidebar-routes";
-import { Search } from "../dashboard/search";
 import Link from "next/link";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
+import { ModeToggle } from "@/components/shared/toggle-theme";
+import { Search } from "@/components/dashboard/shared/search";
 
 const routes = [
   { label: "Inicio", href: "/" },

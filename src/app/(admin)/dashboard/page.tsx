@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 
-import { CardSumary } from "@/components/dashboard/card-sumary";
+import { CardSumary } from "@/components/dashboard/shared/card-sumary";
 import { dataCardSumary } from "@/constants";
 
 import { TrendingUp } from "lucide-react";

@@ -1,4 +1,4 @@
-import NavBar from "@/components/dashboard/nav-bar";
+import NavBar from "@/components/client/shared/nav";
 import Sidebar from "@/components/dashboard/sidebar/sidebar";
 import { Toaster } from "@/components/ui/sonner";
 

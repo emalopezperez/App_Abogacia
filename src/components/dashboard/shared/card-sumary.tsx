@@ -1,7 +1,7 @@
 import { LucideIcon, MoveUpRight } from "lucide-react";
-import CustomIcon from "../shared/custom-icon";
 import { cn } from "@/utils/utils";
-import CustomToolTip from "../shared/custom-toolTip";
+import CustomToolTip from "@/components/shared/custom-toolTip";
+import CustomIcon from "@/components/shared/custom-icon";
 
 interface CardSumaryProps {
   icon: LucideIcon;

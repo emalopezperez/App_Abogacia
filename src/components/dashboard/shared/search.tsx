@@ -21,11 +21,12 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "@/components/ui/command";
-import { Input } from "../ui/input";
+
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { dataSidebar, dataSupportSidebar } from "@/constants";
 import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
 
 export function Search() {
   const [open, setOpen] = React.useState(false);

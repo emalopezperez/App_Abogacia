@@ -8,6 +8,7 @@ const AdminSchema = new mongoose.Schema({
   phone: { type: String },
   nylasGrantId: { type: String },
   nylasEmail: { type: String },
+  availability: [{ type: mongoose.Schema.Types.ObjectId, ref: "Availability" }],
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });

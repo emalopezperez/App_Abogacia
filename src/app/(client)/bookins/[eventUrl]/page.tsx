@@ -1,149 +1,97 @@
-import { Suspense } from "react";
 import { getEvent } from "@/app/actions/admin.actions";
-
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
+import { format, parseISO } from "date-fns";
+import { es } from "date-fns/locale";
 import { currentUser } from "@clerk/nextjs/server";
 import { notFound, redirect } from "next/navigation";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
-import { Clock, MapPin, Video, CalendarIcon } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import EventNotFound from "@/components/client/bookins/event/eventNotFound";
+import BookinComponents from "@/components/client/bookins/bookin-components";
+import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { UserInfo } from "@/components/client/user-info";
-import { EventDetails } from "@/components/client/event-details";
-import { RenderCalendar } from "@/components/client/bookins/render-calendar";
 
-type PageProps = {
-  params: { eventUrl: string };
-  searchParams: { date?: string; time?: string };
-};
-
-async function getData(eventUrl: string) {
-  const eventData = await getEvent(eventUrl);
-
-  if (!eventData) {
-    return notFound();
-  }
-
-  return eventData;
+interface Params {
+  eventUrl: string;
 }
 
-const BookinsPage = async (props: {
-  params: Promise<{ username: string; eventUrl: string }>;
-  searchParams: Promise<{ date?: string; time?: string }>;
+interface SearchParams {
+  date?: string;
+  time: string;
+}
+
+const fetchEventData = async (eventUrl: string) => {
+  const eventData = await getEvent(eventUrl);
+  if (!eventData) throw notFound();
+  return {
+    ...eventData,
+    event: { ...eventData.event },
+  };
+};
+
+const filterHoursForDay = (day: string, days: any[]) => {
+  const hoursForDay = days.find((d) => d.day === day);
+  return hoursForDay || null;
+};
+
+const BookinsPage = async ({
+  params: paramsPromise,
+  searchParams: searchParamsPromise,
+}: {
+  params: Promise<Params>;
+  searchParams: Promise<SearchParams>;
 }) => {
-  const searchParams = await props.searchParams;
-  const params = await props.params;
+  const params = await paramsPromise;
+  const searchParams = await searchParamsPromise;
+
   const user = await currentUser();
   if (!user) return redirect("/sign-in");
 
-  const date = await searchParams.date;
-  const time = await searchParams.time;
-  const eventUrl = await params.eventUrl;
+  const { eventUrl } = params;
+  const date = searchParams.date || new Date().toISOString();
+  const selectedDate = parseISO(date);
 
-  const selectedDate = date ? new Date(date) : new Date();
+  const formattedDate = format(selectedDate, "EEEE, d 'de' MMMM 'de' yyyy", {
+    locale: es,
+  });
+  const day = formattedDate.split(",")[0];
 
-  const formattedDate = new Intl.DateTimeFormat("es-ES", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    timeZone: "UTC",
-  }).format(selectedDate);
+  try {
+    const eventData = await fetchEventData(eventUrl);
+    const hoursForSelectedDay = filterHoursForDay(day, eventData.days);
 
-  const eventData = await getData(eventUrl);
+    if (!hoursForSelectedDay) throw notFound();
 
-  if (!eventData) {
+    const data = {
+      event: eventData.event,
+      days: eventData.days.map((day) => ({
+        ...day,
+        from: day.start,
+        to: day.end,
+      })),
+      user,
+      formattedDate,
+      selectedDate,
+      hoursForSelectedDay,
+      date,
+      time: eventData.event.length,
+      eventUrl,
+    };
+
     return (
-      <div className="container mx-auto py-8">
-        <Card className="mx-auto max-w-5xl">
-          <CardContent className="p-6">
-            <h2 className="text-2xl font-bold text-center">
-              Evento no encontrado
-            </h2>
-            <p className="text-center mt-4">
-              Lo sentimos, el evento que estás buscando no existe o ha sido
-              eliminado.
-            </p>
-            <div className="flex justify-center mt-6">
-              <Button asChild>
-                <a href="/">Volver a la página principal</a>
-              </Button>
+      <Suspense
+        fallback={
+          <div className="container mx-auto py-8 mt-16 ">
+            <div className="flex  gap-6 mx-auto max-w-7xl">
+              <Skeleton className="h-[500px] w-full" />
+              <Skeleton className="h-[500px] w-full" />
+              <Skeleton className="h-[500px] w-full" />
             </div>
-          </CardContent>
-        </Card>
-      </div>
+          </div>
+        }>
+        <BookinComponents data={data} />
+      </Suspense>
     );
+  } catch (error) {
+    return <EventNotFound />;
   }
-
-  return (
-    <div className="container mx-auto py-8">
-      <Card className="mx-auto max-w-5xl">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle className="text-3xl font-bold">
-                {eventData.event.title}
-              </CardTitle>
-              <CardDescription className="mt-2">
-                {eventData.event.description}
-              </CardDescription>
-            </div>
-            <Button variant="outline" asChild>
-              <a href="/" className="flex items-center">
-                <CalendarIcon className="mr-2 h-4 w-4" /> Mis reservas
-              </a>
-            </Button>
-          </div>
-        </CardHeader>
-        <CardContent className="grid gap-6 md:grid-cols-2">
-          <div className="space-y-6">
-            <Suspense fallback={<Skeleton className="h-20 w-full" />}>
-              <UserInfo user={user} />
-            </Suspense>
-            <Separator />
-            <Suspense fallback={<Skeleton className="h-40 w-full" />}>
-              <EventDetails event={eventData?.event} />
-            </Suspense>
-            <Separator />
-            <div>
-              <h3 className="text-lg font-semibold mb-2">Días disponibles</h3>
-              <div className="flex flex-wrap gap-2">
-                {eventData?.days.map((day, index) =>
-                  day.active ? (
-                    <Badge key={index} variant="secondary">
-                      {day.day}
-                    </Badge>
-                  ) : null
-                )}
-              </div>
-            </div>
-          </div>
-          <div className="md:border-l md:pl-6">
-            <h3 className="text-lg font-semibold mb-4">
-              Selecciona una fecha y hora
-            </h3>
-            <Suspense fallback={<Skeleton className="h-[400px] w-full" />}>
-              <RenderCalendar daysofWeek={eventData.days} />
-            </Suspense>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  );
 };
 
 export default BookinsPage;
-
-// const bookings = await createBooking({
-//   //         eventId: "675c86d46ff8946813223d52",
-//   //         eventDate: "2024-12-14",
-//   //         fromTime: "10:30",
-//   //         meetingLength: 60,
-//   //         message: "Primeara iagenda ",
